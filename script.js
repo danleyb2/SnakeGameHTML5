@@ -17,6 +17,8 @@ var context,
     gameTimer,  //frame rate timer
     paused;     //boolean
 
+var eatSound=new Audio("sounds/eat.wav");
+
 /*Snake object*/
 var snake = {
     snakelength: null,
@@ -123,15 +125,7 @@ var snake = {
     eatFood: function () {
         //if(snakeHead.x==snakeFood.x && snakeHead.y==snakeFood.y){//equality sign works too
         //context.clearRect(snakeFood.x,snakeFood.y,snake.sizeY,snake.sizeX);
-        if (this.foodInParts(snakeFood)) {
-            context.fillStyle = '#000000';//todo:lots of redundant code. should fix
-            context.fillRect(snakeFood.x, snakeFood.y, this.sizeY, this.sizeX);
-            snakeFood = null;
-            this.grow();
-            score = score + 8;
-            gamePlay.displayScore();
-            gamePlay.createFood();
-        }
+        return this.foodInParts(snakeFood);
 
     },
     /**
@@ -205,7 +199,16 @@ var gamePlay = {
         }
         snake.move(snake.DIRECTION);
         snake.draw();
-        snake.eatFood();
+        if(snake.eatFood()){
+            eatSound.play();
+            context.fillStyle = '#000000';//todo:lots of redundant code. should fix
+            context.fillRect(snakeFood.x, snakeFood.y, this.sizeY, this.sizeX);
+            snakeFood = null;
+            snake.grow();
+            score = score + 8;
+            this.displayScore();
+            this.createFood();
+        }
         snake.validate();
 
     },
