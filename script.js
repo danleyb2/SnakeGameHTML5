@@ -195,7 +195,7 @@ var gamePlay = {
     gameOn: function () {
         if (gameOver) {
             snake.stop();
-            statePane.innerHTML = 'GAME OVER!!.. press <kbd>Tab</kbd>'
+            statePane.innerHTML = 'GAME OVER!!.. press <kbd>Space Bar</kbd>'
         }
         snake.move(snake.DIRECTION);
         snake.draw();
